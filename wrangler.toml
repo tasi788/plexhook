@@ -1,0 +1,8 @@
+name = "plexhook"
+type = "javascript"
+
+account_id = "f242adebab552ca8f7ef43b3a2ae64ba"
+workers_dev = true
+route = ""
+zone_id = ""
+compatibility_date = "2022-02-19"
