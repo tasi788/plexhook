@@ -11,7 +11,7 @@ async function handleRequest(request) {
     if (payload.event === 'library.new') {
         let plexPhoto = `https://${plexurl}/photo/:/transcode?width=720&height=1080&url=${payload.Metadata.thumb}?X-Plex-Token=${plextoken}&X-Plex-Token=${plextoken}`
 
-        let text = `🔔 ${payload.Metadata.librarySectionTitle}\n` + `${payload.Metadata.title}\n` + ">" + payload.Metadata.summary
+        let text = `🔔 ${payload.Metadata.librarySectionTitle}\n`
 
         const resp = await fetch(plexPhoto, {method: 'GET'})
         const formData = new FormData();
@@ -23,7 +23,15 @@ async function handleRequest(request) {
             PhotoBlob = await resp.blob()
         }
 
-        let data = {content: text, attachments: [{id: 0, description: "", filename: "file.png"}]}
+        let data = {
+            content: text,
+            attachments: [{id: 0, description: "", filename: "file.png"}],
+            embeds: [{
+                title: payload.Metadata.title,
+                type: "rich",
+                description: payload.Metadata.summary
+            }]
+        }
         formData.append('payload_json', JSON.stringify(data))
         formData.append('files[0]', PhotoBlob)
 
